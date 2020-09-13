@@ -4,6 +4,8 @@
 
 Make [telegraf](https://github.com/telegraf/telegraf) (a telegram bot framework) useable in [Cloudflare Workers](https://workers.cloudflare.com/).
 
+You can use [cfworker-telegraf-template](https://github.com/Tsuk1ko/cfworker-telegraf-template) directly.
+
 ## Installation
 
 ```bash
