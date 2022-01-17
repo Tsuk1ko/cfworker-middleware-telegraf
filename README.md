@@ -6,6 +6,8 @@ Make [telegraf](https://github.com/telegraf/telegraf) (a telegram bot framework)
 
 You can use [cfworker-telegraf-template](https://github.com/Tsuk1ko/cfworker-telegraf-template) directly.
 
+> v1 only support telegraf v3. If you want to use telegraf v4, please upgrade to v2.
+
 ## Installation
 
 ```bash
