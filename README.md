@@ -6,7 +6,7 @@ Make [telegraf](https://github.com/telegraf/telegraf) (a telegram bot framework)
 
 You can use [cfworker-telegraf-template](https://github.com/Tsuk1ko/cfworker-telegraf-template) directly.
 
-> v1 only support telegraf v3. If you want to use telegraf v4, please upgrade to v2.
+> v2 only support for telegraf@4. If you want to use telegraf@3, please downgrade to v1.
 
 ## Installation
 
@@ -15,6 +15,15 @@ npm i cfworker-middware-telegraf
 ```
 
 ## Usage
+
+### 0. Install dependencies
+
+Here we use webpack 5.
+
+```bash
+npm i @cfworker/web telegraf cfworker-middware-telegraf
+npm i -D webpack webpack-cli node-polyfill-webpack-plugin
+```
 
 ### 1. Write your code
 
@@ -37,46 +46,53 @@ new Application().use(router.middleware).listen();
 
 ```js
 // webpack.config.js
+const path = require('path');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 module.exports = {
+  entry: path.resolve(__dirname, 'index.js'),
   target: 'webworker',
-  entry: './index.js',
+  output: {
+    filename: 'worker.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
   mode: 'production',
-  node: {
-    fs: 'empty',
+  resolve: {
+    fallback: {
+      fs: false,
+    },
   },
-  module: {
-    rules: [
-      {
-        test: /\.mjs$/,
-        include: /node_modules/,
-        type: 'javascript/auto',
-      },
-    ],
-  },
+  plugins: [new NodePolyfillPlugin()],
   performance: {
     hints: false,
   },
 };
 ```
 
-Just copy and paste built code to cfworker online editor and save.
+```bash
+npx webpack -c webpack.config.js
+```
 
-Or you can use [Wrangler](https://developers.cloudflare.com/workers/tooling/wrangler), an official CLI tool, so you don't need to copy and paste code manually anymore. But I don't like it due to its inexplicable bugs on Win10.
+Just copy and paste built code `dist/worker.js` to cfworker online editor and save.
+
+Or you can use [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler), an official CLI tool, so you don't need to copy and paste code manually anymore. But I don't like it due to its inexplicable bugs on Win10.
 
 ### 3. Set telegram bot webhook
 
 These codes only need to be run once locally.
 
 ```js
-const Telegraf = require('telegraf');
+const { Telegraf } = require('telegraf');
 const bot = new Telegraf('BOT_TOKEN');
 
-// set webhook
-bot.telegram.setWebhook('https://your.cfworker.domain/SECRET_PATH');
+(async () => {
+  // set webhook
+  await bot.telegram.setWebhook('https://your.cfworker.domain/SECRET_PATH');
 
-// delete webhook
-// bot.telegram.deleteWebhook();
+  // delete webhook
+  // await bot.telegram.deleteWebhook();
 
-// get webhook info
-// bot.telegram.getWebhookInfo().then(console.log);
+  // get webhook info
+  await bot.telegram.getWebhookInfo().then(console.log);
+})();
 ```
