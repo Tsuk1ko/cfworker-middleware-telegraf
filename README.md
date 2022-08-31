@@ -1,6 +1,4 @@
-# cfworker-middware-telegraf
-
-[![Version](https://img.shields.io/npm/v/cfworker-middware-telegraf.svg?style=flat-square)](https://www.npmjs.com/package/cfworker-middware-telegraf)
+# cfworker-middleware-telegraf
 
 Make [telegraf](https://github.com/telegraf/telegraf) (a telegram bot framework) useable in [Cloudflare Workers](https://workers.cloudflare.com/).
 
@@ -11,7 +9,7 @@ You can use [cfworker-telegraf-template](https://github.com/Tsuk1ko/cfworker-tel
 ## Installation
 
 ```bash
-npm i cfworker-middware-telegraf
+npm i cfworker-middleware-telegraf
 ```
 
 ## Usage
@@ -22,14 +20,14 @@ npm i cfworker-middware-telegraf
 // index.js
 const { Telegraf } = require('telegraf');
 const { Application, Router } = require('@cfworker/web');
-const createTelegrafMiddware = require('cfworker-middware-telegraf');
+const createTelegrafMiddleware = require('cfworker-middleware-telegraf');
 
 const bot = new Telegraf('BOT_TOKEN');
 
 // Your code here, but do not `bot.launch()`
 
 const router = new Router();
-router.post('/SECRET_PATH', createTelegrafMiddware(bot));
+router.post('/SECRET_PATH', createTelegrafMiddleware(bot));
 new Application().use(router.middleware).listen();
 ```
 

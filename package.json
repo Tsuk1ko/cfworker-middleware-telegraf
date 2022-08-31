@@ -1,9 +1,9 @@
 {
-  "name": "cfworker-middware-telegraf",
-  "version": "1.0.1",
+  "name": "cfworker-middleware-telegraf",
+  "version": "1.0.2",
   "description": "Make telegraf (a telegram bot framework) useable in Cloudflare Workers",
   "main": "index.js",
-  "repository": "https://github.com/Tsuk1ko/cfworker-middware-telegraf",
+  "repository": "https://github.com/Tsuk1ko/cfworker-middleware-telegraf",
   "author": "神代綺凜 <i@loli.best>",
   "license": "MIT",
   "keywords": [
