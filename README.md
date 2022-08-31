@@ -1,6 +1,6 @@
-# cfworker-middware-telegraf
+# cfworker-middleware-telegraf
 
-[![Version](https://img.shields.io/npm/v/cfworker-middware-telegraf.svg?style=flat-square)](https://www.npmjs.com/package/cfworker-middware-telegraf)
+[![Version](https://img.shields.io/npm/v/cfworker-middleware-telegraf.svg?style=flat-square)](https://www.npmjs.com/package/cfworker-middleware-telegraf)
 
 Make [telegraf](https://github.com/telegraf/telegraf) (a telegram bot framework) useable in [Cloudflare Workers](https://workers.cloudflare.com/).
 
@@ -11,7 +11,7 @@ You can use [cfworker-telegraf-template](https://github.com/Tsuk1ko/cfworker-tel
 ## Installation
 
 ```bash
-npm i cfworker-middware-telegraf
+npm i cfworker-middleware-telegraf
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm i cfworker-middware-telegraf
 Here we use webpack 5.
 
 ```bash
-npm i @cfworker/web telegraf cfworker-middware-telegraf
+npm i @cfworker/web telegraf cfworker-middleware-telegraf
 npm i -D webpack webpack-cli node-polyfill-webpack-plugin
 ```
 
@@ -31,14 +31,14 @@ npm i -D webpack webpack-cli node-polyfill-webpack-plugin
 // index.js
 const { Telegraf } = require('telegraf');
 const { Application, Router } = require('@cfworker/web');
-const createTelegrafMiddware = require('cfworker-middware-telegraf');
+const createTelegrafMiddleware = require('cfworker-middleware-telegraf');
 
-const bot = new Telegraf('BOT_TOKEN');
+const bot = new Telegraf(self.BOT_TOKEN);
 
 // Your code here, but do not `bot.launch()`
 
 const router = new Router();
-router.post('/SECRET_PATH', createTelegrafMiddware(bot));
+router.post(self.SECRET_PATH, createTelegrafMiddleware(bot));
 new Application().use(router.middleware).listen();
 ```
 
@@ -77,17 +77,19 @@ Just copy and paste built code `dist/worker.js` to cfworker online editor and sa
 
 Or you can use [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler), an official CLI tool, so you don't need to copy and paste code manually anymore. But I don't like it due to its inexplicable bugs on Win10.
 
+**Then do not forget to set the environment variables of your worker.**
+
 ### 3. Set telegram bot webhook
 
 These codes only need to be run once locally.
 
 ```js
 const { Telegraf } = require('telegraf');
-const bot = new Telegraf('BOT_TOKEN');
+const bot = new Telegraf('YOUR_BOT_TOKEN');
 
 (async () => {
   // set webhook
-  await bot.telegram.setWebhook('https://your.cfworker.domain/SECRET_PATH');
+  await bot.telegram.setWebhook('https://your.cfworker.domain/YOUR_SECRET_PATH');
 
   // delete webhook
   // await bot.telegram.deleteWebhook();

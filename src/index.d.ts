@@ -1,6 +1,6 @@
 import { Middleware } from '@cfworker/web';
 import { Telegraf } from 'telegraf';
 
-declare function telegrafMiddware(bot: Telegraf): Middleware;
+declare function telegrafMiddleware(bot: Telegraf): Middleware;
 
-export = telegrafMiddware;
+export = telegrafMiddleware;
