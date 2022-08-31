@@ -36,9 +36,10 @@ const createTelegrafMiddleware = require('cfworker-middleware-telegraf');
 const bot = new Telegraf(self.BOT_TOKEN);
 
 // Your code here, but do not `bot.launch()`
+// Do not forget to set environment variables BOT_TOKEN and SECRET_PATH on your worker
 
 const router = new Router();
-router.post(self.SECRET_PATH, createTelegrafMiddleware(bot));
+router.post(`/${self.SECRET_PATH}`, createTelegrafMiddleware(bot));
 new Application().use(router.middleware).listen();
 ```
 
@@ -76,8 +77,6 @@ npx webpack -c webpack.config.js
 Just copy and paste built code `dist/worker.js` to cfworker online editor and save.
 
 Or you can use [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler), an official CLI tool, so you don't need to copy and paste code manually anymore. But I don't like it due to its inexplicable bugs on Win10.
-
-**Then do not forget to set the environment variables of your worker.**
 
 ### 3. Set telegram bot webhook
 
