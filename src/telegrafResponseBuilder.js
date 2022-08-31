@@ -7,6 +7,7 @@ module.exports = res => {
     headersSent: false,
     setHeader: (name, value) => res.headers.set(name, value),
     end: data => {
+      console.log('data:', data);
       if (writableEnded) return;
       res.body = data;
       writableEnded = true;
